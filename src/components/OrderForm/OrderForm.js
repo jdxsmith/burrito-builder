@@ -22,6 +22,7 @@ class OrderForm extends Component {
       })
     })
     .then(response => response.json())
+    .catch(err => console.log(err))
   }
 
   handleIngredientChange = e => {
