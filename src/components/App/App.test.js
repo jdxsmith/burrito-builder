@@ -2,7 +2,7 @@ import React from 'react';
 import App from './App'
 import { render, screen, fireEvent } from "@testing-library/react"
 import '@testing-library/jest-dom';
-import { getOrders } from '../../apiCalls'
+import { getOrders, postOrder } from '../../apiCalls'
 jest.mock('../../apiCalls')
 
 describe.only('App', () => {
@@ -58,5 +58,24 @@ describe.only('App', () => {
     expect(pat).toBeInTheDocument()
     expect(sam).toBeInTheDocument()
     expect(alex).toBeInTheDocument()
+  })
+
+  it('should create a new order when the form is filled out', async () => {
+    const input = screen.getByPlaceholderText('Name')
+    const beans = screen.getAllByText('beans')
+    const steak = screen.getAllByText('steak')
+    const submitOrder = screen.getByText('Submit Order')
+
+    fireEvent.change(input, { target: {value: 'Jordon'} })
+
+    expect(input.value).toBe('Jordon');
+
+    fireEvent.click(beans[0])
+    fireEvent.click(steak[0])
+    fireEvent.click(submitOrder)
+
+    // const orderName = screen.getByText('Jordon')
+
+    // expect(orderName).toBeInTheDocument()
   })
 })

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {postOrder} from '../../apiCalls'
 
 class OrderForm extends Component {
   constructor(props) {
@@ -10,22 +11,7 @@ class OrderForm extends Component {
     };
   }
 
-  postOrder = () => {
-    if (this.state.name !== '' && this.state.ingredients.length > 0) {
-      return fetch('http://localhost:3001/api/v1/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: this.state.name,
-          ingredients: this.state.ingredients
-        })
-      })
-      .then(response => response.json())
-      .catch(err => console.log(err))
-    }
-  }
+  
 
   handleIngredientChange = e => {
     e.preventDefault();
@@ -39,7 +25,7 @@ class OrderForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.postOrder();
+    postOrder(this.state.name, this.state.ingredients);
     this.clearInputs();
   }
 
