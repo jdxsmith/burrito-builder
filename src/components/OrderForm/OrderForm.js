@@ -10,9 +10,33 @@ class OrderForm extends Component {
     };
   }
 
+  postOrder = () => {
+    return fetch('http://localhost:3001/api/v1/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        ingredients: this.state.ingredients
+      })
+    })
+    .then(response => response.json())
+  }
+
+  handleIngredientChange = e => {
+    e.preventDefault();
+    this.setState({ ingredients: [...this.state.ingredients, e.target.name] });
+  }
+
+  handleNameChange = e => {
+    e.preventDefault();
+    this.setState({ name: e.target.value });
+  }
 
   handleSubmit = e => {
     e.preventDefault();
+    this.postOrder();
     this.clearInputs();
   }
 
@@ -42,7 +66,7 @@ class OrderForm extends Component {
 
         { ingredientButtons }
 
-        <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
+        <p>Order: { this.state.ingredients.join(', ') || 'Nothing here yet' }</p>
 
         <button onClick={e => this.handleSubmit(e)}>
           Submit Order
