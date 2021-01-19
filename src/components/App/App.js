@@ -12,8 +12,16 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    getOrders()
+  componentDidMount = async () => {
+    await getOrders()
+      .then(data => this.setState({
+        orders: data.orders,
+      }))
+      .catch(err => console.error('Error fetching:', err));
+  }
+
+  componentDidUpdate = async () => {
+    await getOrders()
       .then(data => this.setState({
         orders: data.orders,
       }))
